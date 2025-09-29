@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bet_item_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_horse_placeholder"
+        android:tint="#1976D2" />
+
+    <TextView
+        android:id="@+id/tvBetDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Horse #1 - 20 Coins - 2 Laps"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/btnRemoveBet"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="Remove bet"
+        android:src="@drawable/ic_remove"
+        android:background="@drawable/remove_button_background"
+        android:scaleType="center" />
+
+</LinearLayout>
