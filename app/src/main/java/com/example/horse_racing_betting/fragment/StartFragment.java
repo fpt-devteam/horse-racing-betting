@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.horse_racing_betting.MainActivity;
 import com.example.horse_racing_betting.R;
 import com.example.horse_racing_betting.viewmodel.GameViewModel;
+import com.example.horse_racing_betting.audio.AudioManager;
 
 public class StartFragment extends Fragment {
     private GameViewModel gameViewModel;
@@ -82,6 +83,8 @@ public class StartFragment extends Fragment {
 
     private void setupClickListeners() {
         btnConfirm.setOnClickListener(v -> {
+            AudioManager am = ((MainActivity) requireActivity()).getAudioManager();
+            am.playSfx(R.raw.mouse_click);
             String username = etUsername.getText().toString().trim();
             if (TextUtils.isEmpty(username)) {
                 Toast.makeText(requireContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
@@ -91,15 +94,18 @@ public class StartFragment extends Fragment {
         });
 
         btnStartBetting.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             ((MainActivity) requireActivity()).replaceFragment(new BetFragment());
         });
 
         btnHelp.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             HelpFragment helpFragment = new HelpFragment();
             helpFragment.show(getParentFragmentManager(), "help");
         });
 
         btnSettings.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             SettingsFragment settingsFragment = new SettingsFragment();
             settingsFragment.show(getParentFragmentManager(), "settings");
         });

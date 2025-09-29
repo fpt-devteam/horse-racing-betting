@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.horse_racing_betting.MainActivity;
 import com.example.horse_racing_betting.R;
 import com.example.horse_racing_betting.viewmodel.GameViewModel;
+import com.example.horse_racing_betting.audio.AudioManager;
 
 public class HelpFragment extends DialogFragment {
     private GameViewModel gameViewModel;
@@ -53,12 +54,14 @@ public class HelpFragment extends DialogFragment {
 
     private void setupClickListeners() {
         btnRaceAgain.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             dismiss();
             gameViewModel.returnToMainMenu();
             ((MainActivity) requireActivity()).replaceFragment(new BetFragment());
         });
 
         btnMainMenu.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             dismiss();
             gameViewModel.returnToMainMenu();
             ((MainActivity) requireActivity()).replaceFragment(new StartFragment());
