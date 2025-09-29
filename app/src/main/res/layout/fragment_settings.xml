@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_background"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Settings icon"
+            android:src="@drawable/ic_settings"
+            android:tint="#1976D2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings &amp; Audio"
+            android:textColor="#333333"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Audio Settings -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Sound effects icon"
+            android:src="@drawable/ic_volume"
+            android:tint="#1976D2" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sound Effects"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchSoundEffects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="On"
+            android:textColor="#1976D2"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Background music icon"
+            android:src="@drawable/ic_music"
+            android:tint="#1976D2" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Background Music"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchBackgroundMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="On"
+            android:textColor="#1976D2"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Restart Game Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Restart Game Confirmation"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/warning_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="Warning icon"
+                android:src="@drawable/ic_warning"
+                android:tint="#FF9800" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Are you sure you want to restart the game?"
+                android:textAlignment="center"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Cancel"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btnRestart"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#F44336"
+                    android:text="Restart"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="Resets coins to 100, keeps your username"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+</LinearLayout>

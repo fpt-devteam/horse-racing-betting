@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Username Entry Card (shown only on first run) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/usernameCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Horse icon"
+                android:src="@drawable/ic_horse_placeholder" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:text="Welcome, Player!"
+                android:textColor="#333333"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:text="Please enter your username:"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/edittext_background"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="12dp"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:padding="16dp"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:backgroundTint="#1976D2"
+                android:text="Confirm"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Main Menu Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainMenuCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/main_menu_background"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <!-- App Logo Area -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Horse icon"
+                    android:src="@drawable/ic_horse_placeholder"
+                    android:tint="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Horse Race\nBetting"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- User Info Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Welcome,\n[Username]!"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <!-- Coin Display -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/coin_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Coin icon"
+                        android:src="@drawable/ic_coin_placeholder" />
+
+                    <TextView
+                        android:id="@+id/tvCoins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100 Coins"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Main Action Button -->
+            <Button
+                android:id="@+id/btnStartBetting"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="#1976D2"
+                android:text="START BETTING"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Secondary Actions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnHelp"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="HELP"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btnSettings"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="SETTINGS"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
