@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:padding="16dp">
 
     <!-- Username Entry Card (shown only on first run) -->
@@ -109,7 +110,7 @@
                     android:layout_marginEnd="8dp"
                     android:contentDescription="Horse icon"
                     android:src="@drawable/ic_horse_placeholder"
-                    android:tint="@android:color/white" />
+                    app:tint="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"

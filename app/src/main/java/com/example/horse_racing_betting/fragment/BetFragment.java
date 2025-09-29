@@ -28,7 +28,6 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
     private GameViewModel gameViewModel;
     private Spinner spinnerHorse;
     private EditText etAmount;
-    private Spinner spinnerLaps;
     private Button btnAddBet;
     private TextView tvCurrentCoins;
     private RecyclerView recyclerViewBets;
@@ -57,7 +56,6 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
     private void initViews(View view) {
         spinnerHorse = view.findViewById(R.id.spinnerHorse);
         etAmount = view.findViewById(R.id.etAmount);
-        spinnerLaps = view.findViewById(R.id.spinnerLaps);
         btnAddBet = view.findViewById(R.id.btnAddBet);
         tvCurrentCoins = view.findViewById(R.id.tvCurrentCoins);
         recyclerViewBets = view.findViewById(R.id.recyclerViewBets);
@@ -72,13 +70,6 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
             android.R.layout.simple_spinner_item, horseOptions);
         horseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerHorse.setAdapter(horseAdapter);
-
-        // Laps selection spinner
-        String[] lapOptions = {"1", "2", "3"};
-        ArrayAdapter<String> lapAdapter = new ArrayAdapter<>(requireContext(),
-            android.R.layout.simple_spinner_item, lapOptions);
-        lapAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLaps.setAdapter(lapAdapter);
     }
 
     private void setupRecyclerView() {
@@ -154,13 +145,11 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
         }
 
         int horseNumber = spinnerHorse.getSelectedItemPosition();
-        int laps = Integer.parseInt((String) spinnerLaps.getSelectedItem());
 
-        boolean success = gameViewModel.addBet(horseNumber, amount, laps);
+        boolean success = gameViewModel.addBet(horseNumber, amount);
         if (success) {
             etAmount.setText("");
             spinnerHorse.setSelection(0);
-            spinnerLaps.setSelection(0);
             Toast.makeText(requireContext(), "Bet added successfully", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(requireContext(), "Failed to add bet", Toast.LENGTH_SHORT).show();

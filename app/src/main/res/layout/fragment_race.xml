@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#F1F8E9"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <!-- Race Track Container -->
@@ -29,107 +30,107 @@
                 android:padding="16dp">
 
                 <!-- Horse Lane 1 -->
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="4dp"
-                    android:background="@drawable/lane_background">
+                    android:background="@drawable/lane_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/horse1"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Horse 1"
-                        android:src="@drawable/ic_horse_1" />
+                    <SeekBar
+                        android:id="@+id/seekBar1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="4dp"
+                        android:enabled="false"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressTint="#FF6D00"
+                        android:progressBackgroundTint="#FFFFFF"
+                        android:thumb="@drawable/ic_horse_1" />
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="16dp"
-                        android:background="#FFFFFF" />
-
-                </RelativeLayout>
+                </LinearLayout>
 
                 <!-- Horse Lane 2 -->
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="4dp"
-                    android:background="@drawable/lane_background">
+                    android:background="@drawable/lane_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/horse2"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Horse 2"
-                        android:src="@drawable/ic_horse_2" />
+                    <SeekBar
+                        android:id="@+id/seekBar2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="4dp"
+                        android:enabled="false"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressTint="#E91E63"
+                        android:progressBackgroundTint="#FFFFFF"
+                        android:thumb="@drawable/ic_horse_2" />
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="16dp"
-                        android:background="#FFFFFF" />
-
-                </RelativeLayout>
+                </LinearLayout>
 
                 <!-- Horse Lane 3 -->
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="4dp"
-                    android:background="@drawable/lane_background">
+                    android:background="@drawable/lane_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/horse3"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Horse 3"
-                        android:src="@drawable/ic_horse_3" />
+                    <SeekBar
+                        android:id="@+id/seekBar3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="4dp"
+                        android:enabled="false"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressTint="#3F51B5"
+                        android:progressBackgroundTint="#FFFFFF"
+                        android:thumb="@drawable/ic_horse_3" />
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="16dp"
-                        android:background="#FFFFFF" />
-
-                </RelativeLayout>
+                </LinearLayout>
 
                 <!-- Horse Lane 4 -->
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/lane_background">
+                    android:background="@drawable/lane_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/horse4"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="Horse 4"
-                        android:src="@drawable/ic_horse_4" />
+                    <SeekBar
+                        android:id="@+id/seekBar4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="4dp"
+                        android:enabled="false"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressTint="#795548"
+                        android:progressBackgroundTint="#FFFFFF"
+                        android:thumb="@drawable/ic_horse_4" />
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="16dp"
-                        android:background="#FFFFFF" />
-
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -153,21 +154,6 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
-            <!-- Lap Counter -->
-            <TextView
-                android:id="@+id/tvLapCounter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="16dp"
-                android:background="@drawable/lap_counter_background"
-                android:padding="8dp"
-                android:text="Lap 1/3"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 

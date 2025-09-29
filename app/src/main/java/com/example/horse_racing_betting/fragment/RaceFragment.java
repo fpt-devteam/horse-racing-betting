@@ -1,12 +1,11 @@
 package com.example.horse_racing_betting.fragment;
 
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,11 +26,9 @@ public class RaceFragment extends Fragment {
     private GameViewModel gameViewModel;
     private LinearLayout countdownOverlay;
     private TextView tvCountdown;
-    private TextView tvLapCounter;
     private TextView tvRaceStatus;
-    private ImageView horse1, horse2, horse3, horse4;
-    private List<ImageView> horseViews;
-    private List<ObjectAnimator> horseAnimators;
+    private SeekBar seekBar1, seekBar2, seekBar3, seekBar4;
+    private List<SeekBar> seekBars;
     private SkinManager skinManager;
 
     @Override
@@ -53,30 +50,18 @@ public class RaceFragment extends Fragment {
     private void initViews(View view) {
         countdownOverlay = view.findViewById(R.id.countdownOverlay);
         tvCountdown = view.findViewById(R.id.tvCountdown);
-        tvLapCounter = view.findViewById(R.id.tvLapCounter);
         tvRaceStatus = view.findViewById(R.id.tvRaceStatus);
 
-        horse1 = view.findViewById(R.id.horse1);
-        horse2 = view.findViewById(R.id.horse2);
-        horse3 = view.findViewById(R.id.horse3);
-        horse4 = view.findViewById(R.id.horse4);
+        seekBar1 = view.findViewById(R.id.seekBar1);
+        seekBar2 = view.findViewById(R.id.seekBar2);
+        seekBar3 = view.findViewById(R.id.seekBar3);
+        seekBar4 = view.findViewById(R.id.seekBar4);
 
-        horseViews = new ArrayList<>();
-        horseViews.add(horse1);
-        horseViews.add(horse2);
-        horseViews.add(horse3);
-        horseViews.add(horse4);
-
-        // Apply skins
-        for (int i = 0; i < horseViews.size(); i++) {
-            skinManager.applyHorseIcon(horseViews.get(i), i + 1);
-        }
-
-        horseAnimators = new ArrayList<>();
-        for (ImageView horse : horseViews) {
-            ObjectAnimator animator = ObjectAnimator.ofFloat(horse, "translationX", 0f, 0f);
-            horseAnimators.add(animator);
-        }
+        seekBars = new ArrayList<>();
+        seekBars.add(seekBar1);
+        seekBars.add(seekBar2);
+        seekBars.add(seekBar3);
+        seekBars.add(seekBar4);
     }
 
     private void setupObservers() {
@@ -114,12 +99,6 @@ public class RaceFragment extends Fragment {
             }
         });
 
-        gameViewModel.getCurrentLap().observe(getViewLifecycleOwner(), lap -> {
-            if (lap != null) {
-                tvLapCounter.setText(lap);
-            }
-        });
-
         gameViewModel.getHorses().observe(getViewLifecycleOwner(), horses -> {
             if (horses != null) {
                 updateHorsePositions(horses);
@@ -148,53 +127,38 @@ public class RaceFragment extends Fragment {
     }
 
     private void updateHorsePositions(List<Horse> horses) {
-        if (horses.size() != horseViews.size()) return;
+        if (horses.size() != seekBars.size()) return;
 
         for (int i = 0; i < horses.size(); i++) {
             Horse horse = horses.get(i);
-            ImageView horseView = horseViews.get(i);
+            SeekBar seekBar = seekBars.get(i);
 
-            // Calculate position based on track width (leaving space for finish line)
-            float trackWidth = getResources().getDisplayMetrics().widthPixels - 200; // Account for margins and finish line
-            float maxPosition = 300.0f; // Max position in the simulation
-            float translationX = (horse.getPosition() / maxPosition) * trackWidth;
+            // Update SeekBar progress (0-100 maps directly to horse position)
+            int progress = (int) Math.min(horse.getPosition(), 100.0f);
+            seekBar.setProgress(progress);
 
-            // Clamp to track bounds
-            translationX = Math.min(translationX, trackWidth);
-            translationX = Math.max(translationX, 0);
-
-            // Animate horse movement smoothly
-            ObjectAnimator animator = horseAnimators.get(i);
-            if (animator != null) {
-                animator.cancel();
-            }
-
-            animator = ObjectAnimator.ofFloat(horseView, "translationX", horseView.getTranslationX(), translationX);
-            animator.setDuration(100);
-            animator.start();
-            horseAnimators.set(i, animator);
-
-            // Add slight rotation for movement effect
-            if (GameViewModel.STATE_RUNNING.equals(gameViewModel.getGameState().getValue())) {
-                horseView.animate()
-                    .rotation(horse.getPosition() % 2 == 0 ? 2f : -2f)
+            // Add visual feedback for running horses
+            if (GameViewModel.STATE_RUNNING.equals(gameViewModel.getGameState().getValue()) && !horse.isFinished()) {
+                // Slightly animate the SeekBar for visual effect
+                seekBar.animate()
+                    .scaleY(1.1f)
                     .setDuration(100)
                     .withEndAction(() -> {
-                        horseView.animate().rotation(0f).setDuration(100);
+                        seekBar.animate()
+                            .scaleY(1.0f)
+                            .setDuration(100);
                     });
             }
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Clean up animators
-        for (ObjectAnimator animator : horseAnimators) {
-            if (animator != null) {
-                animator.cancel();
-            }
+        // Clean up references
+        if (seekBars != null) {
+            seekBars.clear();
         }
-        horseAnimators.clear();
     }
 }

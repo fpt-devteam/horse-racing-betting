@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:padding="16dp">
 
     <!-- Header with Title -->
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Betting Interface"
+        android:text="Betting round"
         android:textAlignment="center"
         android:textColor="#1976D2"
         android:textSize="28sp"
@@ -114,30 +115,6 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Laps Selection -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Laps"
-                        android:textColor="#666666"
-                        android:textSize="12sp" />
-
-                    <Spinner
-                        android:id="@+id/spinnerLaps"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="@drawable/spinner_background" />
 
                 </LinearLayout>
 

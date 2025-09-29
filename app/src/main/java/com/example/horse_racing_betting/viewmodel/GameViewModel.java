@@ -32,20 +32,19 @@ public class GameViewModel extends AndroidViewModel {
     private static final double THIRD_PLACE_MULTIPLIER = 1.1;
     private static final double FOURTH_PLACE_MULTIPLIER = 0.0;
 
-    private SharedPreferences sharedPreferences;
-    private Random random = new Random();
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final SharedPreferences sharedPreferences;
+    private final Random random = new Random();
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     // LiveData
-    private MutableLiveData<String> username = new MutableLiveData<>();
-    private MutableLiveData<Integer> coins = new MutableLiveData<>();
-    private MutableLiveData<Boolean> firstRun = new MutableLiveData<>();
-    private MutableLiveData<List<Bet>> bets = new MutableLiveData<>();
-    private MutableLiveData<List<Horse>> horses = new MutableLiveData<>();
-    private MutableLiveData<String> gameState = new MutableLiveData<>();
-    private MutableLiveData<Integer> countdown = new MutableLiveData<>();
-    private MutableLiveData<String> currentLap = new MutableLiveData<>();
-    private MutableLiveData<RaceResult> raceResult = new MutableLiveData<>();
+    private final MutableLiveData<String> username = new MutableLiveData<>();
+    private final MutableLiveData<Integer> coins = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> firstRun = new MutableLiveData<>();
+    private final MutableLiveData<List<Bet>> bets = new MutableLiveData<>();
+    private final MutableLiveData<List<Horse>> horses = new MutableLiveData<>();
+    private final MutableLiveData<String> gameState = new MutableLiveData<>();
+    private final MutableLiveData<Integer> countdown = new MutableLiveData<>();
+    private final MutableLiveData<RaceResult> raceResult = new MutableLiveData<>();
 
     // Game states
     public static final String STATE_IDLE = "IDLE";
@@ -89,7 +88,6 @@ public class GameViewModel extends AndroidViewModel {
     public LiveData<List<Horse>> getHorses() { return horses; }
     public LiveData<String> getGameState() { return gameState; }
     public LiveData<Integer> getCountdown() { return countdown; }
-    public LiveData<String> getCurrentLap() { return currentLap; }
     public LiveData<RaceResult> getRaceResult() { return raceResult; }
 
     // User management
@@ -103,7 +101,7 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     // Betting
-    public boolean addBet(int horseNumber, int amount, int laps) {
+    public boolean addBet(int horseNumber, int amount) {
         if (coins.getValue() == null || coins.getValue() < amount) {
             return false;
         }
@@ -113,7 +111,7 @@ public class GameViewModel extends AndroidViewModel {
             currentBets = new ArrayList<>();
         }
 
-        currentBets.add(new Bet(horseNumber, amount, laps));
+        currentBets.add(new Bet(horseNumber, amount));
         bets.setValue(currentBets);
         return true;
     }
@@ -176,60 +174,42 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     private void runRace() {
-        List<Bet> currentBets = bets.getValue();
-        if (currentBets == null || currentBets.isEmpty()) return;
-
-        int maxLaps = 1;
-        for (Bet bet : currentBets) {
-            maxLaps = Math.max(maxLaps, bet.getLaps());
-        }
-
-        simulateRace(maxLaps);
+        simulateRace();
     }
 
-    private void simulateRace(int totalLaps) {
+    private void simulateRace() {
         List<Horse> raceHorses = horses.getValue();
         if (raceHorses == null) return;
 
         // Simulate race with random movement
         Runnable raceAnimation = new Runnable() {
-            int currentLap = 1;
-
             @Override
             public void run() {
-                GameViewModel.this.currentLap.setValue("Lap " + currentLap + "/" + totalLaps);
-
                 // Move horses randomly
                 for (Horse horse : raceHorses) {
                     if (!horse.isFinished()) {
                         float movement = random.nextFloat() * 2.0f + 0.5f; // Random movement between 0.5 and 2.5
                         horse.move(movement);
 
-                        // Check if horse finished current lap
-                        if (horse.getPosition() >= 100.0f * currentLap) {
-                            if (currentLap >= totalLaps) {
-                                horse.setFinished(true);
-                            }
+                        // Check if horse finished the race
+                        if (horse.getPosition() >= 100.0f) {
+                            horse.setFinished(true);
                         }
                     }
                 }
 
                 horses.setValue(new ArrayList<>(raceHorses));
 
-                // Check if all horses finished or current lap is complete
-                boolean lapComplete = true;
+                // Count how many horses haven't finished
+                int unfinishedCount = 0;
                 for (Horse horse : raceHorses) {
-                    if (horse.getPosition() < 100.0f * currentLap) {
-                        lapComplete = false;
-                        break;
+                    if (!horse.isFinished()) {
+                        unfinishedCount++;
                     }
                 }
 
-                if (lapComplete && currentLap < totalLaps) {
-                    currentLap++;
-                    handler.postDelayed(this, 100);
-                } else if (currentLap >= totalLaps) {
-                    // Race finished
+                if (unfinishedCount <= 1) {
+                    // Race finished - only one or no horses left unfinished
                     finishRace();
                 } else {
                     handler.postDelayed(this, 100);
