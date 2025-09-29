@@ -22,6 +22,7 @@ import com.example.horse_racing_betting.MainActivity;
 import com.example.horse_racing_betting.R;
 import com.example.horse_racing_betting.adapter.BetAdapter;
 import com.example.horse_racing_betting.viewmodel.GameViewModel;
+import com.example.horse_racing_betting.audio.AudioManager;
 
 public class BetFragment extends Fragment implements BetAdapter.OnBetClickListener {
     private GameViewModel gameViewModel;
@@ -107,8 +108,14 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
     }
 
     private void setupClickListeners() {
-        btnAddBet.setOnClickListener(v -> addBet());
-        btnStartRace.setOnClickListener(v -> startRace());
+        btnAddBet.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
+            addBet();
+        });
+        btnStartRace.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
+            startRace();
+        });
     }
 
     private void addBet() {
@@ -180,6 +187,7 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
 
     @Override
     public void onRemoveBet(int position) {
+        ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
         gameViewModel.removeBet(position);
     }
 }

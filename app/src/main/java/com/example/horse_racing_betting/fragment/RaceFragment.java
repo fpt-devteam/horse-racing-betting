@@ -17,6 +17,8 @@ import com.example.horse_racing_betting.MainActivity;
 import com.example.horse_racing_betting.R;
 import com.example.horse_racing_betting.model.Horse;
 import com.example.horse_racing_betting.viewmodel.GameViewModel;
+import com.example.horse_racing_betting.audio.AudioManager;
+import com.example.horse_racing_betting.skin.SkinManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +32,13 @@ public class RaceFragment extends Fragment {
     private ImageView horse1, horse2, horse3, horse4;
     private List<ImageView> horseViews;
     private List<ObjectAnimator> horseAnimators;
+    private SkinManager skinManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameViewModel = ((MainActivity) requireActivity()).getGameViewModel();
+    skinManager = SkinManager.getInstance(requireContext());
     }
 
     @Nullable
@@ -63,6 +67,11 @@ public class RaceFragment extends Fragment {
         horseViews.add(horse3);
         horseViews.add(horse4);
 
+        // Apply skins
+        for (int i = 0; i < horseViews.size(); i++) {
+            skinManager.applyHorseIcon(horseViews.get(i), i + 1);
+        }
+
         horseAnimators = new ArrayList<>();
         for (ImageView horse : horseViews) {
             ObjectAnimator animator = ObjectAnimator.ofFloat(horse, "translationX", 0f, 0f);
@@ -75,10 +84,14 @@ public class RaceFragment extends Fragment {
             updateRaceStatus(state);
 
             if (GameViewModel.STATE_RESULT.equals(state)) {
+                // Play finish fanfare
+                ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.fanfare);
                 // Navigate to results after a short delay
                 tvRaceStatus.postDelayed(() -> {
                     if (getActivity() != null) {
-                        ((MainActivity) requireActivity()).replaceFragment(new ResultFragment());
+                        // Show results as a dialog
+                        ResultFragment dialog = new ResultFragment();
+                        dialog.show(getParentFragmentManager(), "results");
                     }
                 }, 2000);
             }
@@ -86,11 +99,17 @@ public class RaceFragment extends Fragment {
 
         gameViewModel.getCountdown().observe(getViewLifecycleOwner(), countdown -> {
             if (countdown != null) {
+//                ((MainActivity) requireActivity()).getAudioManager().stopBgm();
+                ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.race_start_beeps);
+
                 if (countdown > 0) {
                     countdownOverlay.setVisibility(View.VISIBLE);
                     tvCountdown.setText(String.valueOf(countdown));
+                    // Beep during countdown
                 } else {
                     countdownOverlay.setVisibility(View.GONE);
+                    // Start sound when countdown ends
+                    ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.horse_whinny);
                 }
             }
         });
