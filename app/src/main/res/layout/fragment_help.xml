@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background"
@@ -20,7 +21,7 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="Help icon"
             android:src="@drawable/ic_help"
-            android:tint="#1976D2" />
+            app:tint="#1976D2" />
 
         <TextView
             android:layout_width="0dp"
@@ -36,7 +37,7 @@
             android:layout_height="24dp"
             android:contentDescription="Sound icon"
             android:src="@drawable/ic_volume"
-            android:tint="#666666" />
+            app:tint="#666666" />
 
         <ImageView
             android:layout_width="24dp"
@@ -44,7 +45,7 @@
             android:layout_marginStart="8dp"
             android:contentDescription="Settings icon"
             android:src="@drawable/ic_settings"
-            android:tint="#666666" />
+            app:tint="#666666" />
 
     </LinearLayout>
 
@@ -68,7 +69,7 @@
                 android:layout_marginEnd="8dp"
                 android:contentDescription="Game controller icon"
                 android:src="@drawable/ic_gamepad"
-                android:tint="#1976D2" />
+                app:tint="#1976D2" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,7 +195,7 @@
                 android:layout_marginEnd="8dp"
                 android:contentDescription="Table icon"
                 android:src="@drawable/ic_table"
-                android:tint="#1976D2" />
+                app:tint="#1976D2" />
 
             <TextView
                 android:layout_width="wrap_content"

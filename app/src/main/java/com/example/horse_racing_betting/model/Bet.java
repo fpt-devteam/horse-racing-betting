@@ -3,12 +3,10 @@ package com.example.horse_racing_betting.model;
 public class Bet {
     private int horseNumber;
     private int amount;
-    private int laps;
 
-    public Bet(int horseNumber, int amount, int laps) {
+    public Bet(int horseNumber, int amount) {
         this.horseNumber = horseNumber;
         this.amount = amount;
-        this.laps = laps;
     }
 
     public int getHorseNumber() {
@@ -27,16 +25,10 @@ public class Bet {
         this.amount = amount;
     }
 
-    public int getLaps() {
-        return laps;
-    }
 
-    public void setLaps(int laps) {
-        this.laps = laps;
-    }
 
     @Override
     public String toString() {
-        return "Horse #" + horseNumber + " - " + amount + " Coins - " + laps + " Lap" + (laps > 1 ? "s" : "");
+        return "Horse #" + horseNumber + " - " + amount + " Coins";
     }
 }
