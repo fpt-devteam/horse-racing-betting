@@ -1,7 +1,7 @@
 package com.example.horse_racing_betting.model;
 
 public class Horse {
-    private int number;
+    private final int number;
     private float position;
     private boolean isFinished;
     private int finishPosition;
@@ -15,10 +15,6 @@ public class Horse {
 
     public int getNumber() {
         return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public float getPosition() {

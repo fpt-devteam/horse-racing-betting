@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.OptIn;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.media3.common.util.UnstableApi;
 
 import com.example.horse_racing_betting.model.Bet;
 import com.example.horse_racing_betting.model.Horse;
@@ -15,8 +17,12 @@ import com.example.horse_racing_betting.model.RaceResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
+import android.util.Log;
 
 public class GameViewModel extends AndroidViewModel {
     private static final String PREFS_NAME = "GamePrefs";
@@ -45,6 +51,7 @@ public class GameViewModel extends AndroidViewModel {
     private final MutableLiveData<String> gameState = new MutableLiveData<>();
     private final MutableLiveData<Integer> countdown = new MutableLiveData<>();
     private final MutableLiveData<RaceResult> raceResult = new MutableLiveData<>();
+    private final MutableLiveData<Map<Integer, Boolean>> picked = new MutableLiveData<>();
 
     // Game states
     public static final String STATE_IDLE = "IDLE";
@@ -78,6 +85,9 @@ public class GameViewModel extends AndroidViewModel {
             horseList.add(new Horse(i));
         }
         horses.setValue(horseList);
+        Map<Integer, Boolean> m = new HashMap<>();
+        for (Horse h : horseList) m.put(h.getNumber(), false);
+        picked.setValue(m);
     }
 
     // Getters for LiveData
@@ -89,6 +99,7 @@ public class GameViewModel extends AndroidViewModel {
     public LiveData<String> getGameState() { return gameState; }
     public LiveData<Integer> getCountdown() { return countdown; }
     public LiveData<RaceResult> getRaceResult() { return raceResult; }
+    public LiveData<Map<Integer, Boolean>> getPicked() { return picked; }
 
     // User management
     public void setUsername(String name) {
@@ -101,9 +112,21 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     // Betting
-    public boolean addBet(int horseNumber, int amount) {
+    public void markPicked(int horseNumber) {
+        Map<Integer, Boolean> m = new HashMap<>(Objects.requireNonNull(picked.getValue()));
+        m.put(horseNumber, true);
+        picked.setValue(m);
+    }
+
+    public boolean isPicked(int horseNumber) {
+        Map<Integer, Boolean> m = picked.getValue();
+        return m != null && Boolean.TRUE.equals(m.get(horseNumber));
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    public boolean addBet(int horseNumber, int amount) throws IllegalArgumentException{
         if (coins.getValue() == null || coins.getValue() < amount) {
-            return false;
+            throw new IllegalArgumentException("coin error");
         }
 
         List<Bet> currentBets = bets.getValue();
@@ -111,16 +134,48 @@ public class GameViewModel extends AndroidViewModel {
             currentBets = new ArrayList<>();
         }
 
-        currentBets.add(new Bet(horseNumber, amount));
-        bets.setValue(currentBets);
-        return true;
+        androidx.media3.common.util.Log.d("Horse number picked", Integer.toString(horseNumber));
+
+
+        if (!isPicked(horseNumber)){
+            currentBets.add(new Bet(horseNumber, amount));
+            bets.setValue(currentBets);
+            markPicked(horseNumber);
+            return true;
+        };
+
+//        for (int i = 1; i <= 4; i++) {
+//            Map<Integer, Boolean> mapValue = picked.getValue();
+//            if (mapValue != null) {
+//                StringBuilder mapContents = new StringBuilder("Picked Map (Iteration " + i + "): {");
+//                for (Map.Entry<Integer, Boolean> entry : mapValue.entrySet()) {
+//                    mapContents.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
+//                }
+//                // Remove trailing comma and space if map is not empty
+//                if (!mapValue.isEmpty()) {
+//                    mapContents.setLength(mapContents.length() - 2);
+//                }
+//                mapContents.append("}");
+//                androidx.media3.common.util.Log.d("MyActivity_PickedDebug", mapContents.toString());
+//            } else {
+//                androidx.media3.common.util.Log.d("MyActivity_PickedDebug", "Picked Map (Iteration " + i + "): null");
+//            }
+//        }
+        throw new IllegalArgumentException("pick error");
     }
 
     public void removeBet(int index) {
         List<Bet> currentBets = bets.getValue();
+        Bet removedBet = null;
         if (currentBets != null && index >= 0 && index < currentBets.size()) {
-            currentBets.remove(index);
+            removedBet = currentBets.remove(index);
             bets.setValue(currentBets);
+        }
+        Map<Integer, Boolean> pickedMap = getPicked().getValue();
+        if (pickedMap != null && removedBet != null) {
+            Map<Integer, Boolean> newMap = new HashMap<>(pickedMap);
+            newMap.put(removedBet.getHorseNumber(), false);
+            picked.setValue(newMap);
         }
     }
 
