@@ -35,7 +35,7 @@ public class GameViewModel extends AndroidViewModel {
     // Payout multipliers
     private static final double FIRST_PLACE_MULTIPLIER = 2.0;
     private static final double SECOND_PLACE_MULTIPLIER = 1.3;
-    private static final double THIRD_PLACE_MULTIPLIER = 1.1;
+    private static final double THIRD_PLACE_MULTIPLIER = 0.5;
     private static final double FOURTH_PLACE_MULTIPLIER = 0.0;
 
     private final SharedPreferences sharedPreferences;
@@ -144,23 +144,6 @@ public class GameViewModel extends AndroidViewModel {
             return true;
         };
 
-//        for (int i = 1; i <= 4; i++) {
-//            Map<Integer, Boolean> mapValue = picked.getValue();
-//            if (mapValue != null) {
-//                StringBuilder mapContents = new StringBuilder("Picked Map (Iteration " + i + "): {");
-//                for (Map.Entry<Integer, Boolean> entry : mapValue.entrySet()) {
-//                    mapContents.append(entry.getKey()).append("=").append(entry.getValue()).append(", ");
-//                }
-//                // Remove trailing comma and space if map is not empty
-//                if (!mapValue.isEmpty()) {
-//                    mapContents.setLength(mapContents.length() - 2);
-//                }
-//                mapContents.append("}");
-//                androidx.media3.common.util.Log.d("MyActivity_PickedDebug", mapContents.toString());
-//            } else {
-//                androidx.media3.common.util.Log.d("MyActivity_PickedDebug", "Picked Map (Iteration " + i + "): null");
-//            }
-//        }
         throw new IllegalArgumentException("pick error");
     }
 
@@ -214,18 +197,24 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     private void startCountdown() {
-        countdown.setValue(3);
-        handler.postDelayed(() -> {
-            countdown.setValue(2);
+        // Start countdown from 5 to 0 (where 0 means "Go")
+        performCountdown(3);
+    }
+
+    private void performCountdown(int currentCount) {
+        if (currentCount > 0) {
+            // Display the number
+            countdown.setValue(currentCount);
+            // Schedule next countdown after 1 second
+            handler.postDelayed(() -> performCountdown(currentCount - 1), 1000);
+        } else {
+            // Display "Go" (represented by 0) and start the race
+            countdown.setValue(0);
             handler.postDelayed(() -> {
-                countdown.setValue(1);
-                handler.postDelayed(() -> {
-                    countdown.setValue(0);
-                    gameState.setValue(STATE_RUNNING);
-                    runRace();
-                }, 1000);
+                gameState.setValue(STATE_RUNNING);
+                runRace();
             }, 1000);
-        }, 1000);
+        }
     }
 
     private void runRace() {
@@ -240,10 +229,13 @@ public class GameViewModel extends AndroidViewModel {
         Runnable raceAnimation = new Runnable() {
             @Override
             public void run() {
-                // Move horses randomly
+                // Move horses randomly - each horse gets different random speed each loop
+                // Speed range: 0.1 to 0.9 for slower, more dramatic differences
                 for (Horse horse : raceHorses) {
                     if (!horse.isFinished()) {
-                        float movement = random.nextFloat() * 2.0f + 0.5f; // Random movement between 0.5 and 2.5
+                        // Generate random speed between 0.1 and 0.9
+                        // This creates dramatic speed differences: slow horse ~0.1-0.3, fast horse ~0.6-0.9
+                        float movement = random.nextFloat() * 0.8f + 0.1f;
                         horse.move(movement);
 
                         // Check if horse finished the race
@@ -336,13 +328,23 @@ public class GameViewModel extends AndroidViewModel {
         }
     }
 
-    // Game reset
+    // Game reset - Full reset including username
     public void resetGame() {
+        // Clear all data
+        username.setValue("");
         coins.setValue(INITIAL_COINS);
+        firstRun.setValue(true);
         bets.setValue(new ArrayList<>());
         initializeHorses();
         gameState.setValue(STATE_IDLE);
-        sharedPreferences.edit().putInt(KEY_COINS, INITIAL_COINS).apply();
+        raceResult.setValue(null);
+
+        // Clear SharedPreferences
+        sharedPreferences.edit()
+                .putString(KEY_USERNAME, "")
+                .putInt(KEY_COINS, INITIAL_COINS)
+                .putBoolean(KEY_FIRST_RUN, true)
+                .apply();
     }
 
     public void clearBets() {

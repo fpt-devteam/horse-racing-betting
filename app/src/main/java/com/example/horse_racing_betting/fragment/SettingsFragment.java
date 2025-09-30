@@ -23,7 +23,6 @@ public class SettingsFragment extends DialogFragment {
     private GameViewModel gameViewModel;
     private SwitchCompat switchSoundEffects, switchBackgroundMusic;
     private Button btnCancel, btnRestart;
-    private Button btnSkinDefault, btnSkinBlue, btnSkinRed;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,9 +55,6 @@ public class SettingsFragment extends DialogFragment {
         switchBackgroundMusic = view.findViewById(R.id.switchBackgroundMusic);
         btnCancel = view.findViewById(R.id.btnCancel);
         btnRestart = view.findViewById(R.id.btnRestart);
-    btnSkinDefault = view.findViewById(R.id.btnSkinDefault);
-    btnSkinBlue = view.findViewById(R.id.btnSkinBlue);
-    btnSkinRed = view.findViewById(R.id.btnSkinRed);
 
         // Initialize switches with persisted states
         AudioManager am = ((MainActivity) requireActivity()).getAudioManager();
@@ -90,30 +86,15 @@ public class SettingsFragment extends DialogFragment {
 
         btnRestart.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
-            gameViewModel.resetGame();
-            Toast.makeText(requireContext(), "Game reset! Coins restored to 100.", Toast.LENGTH_SHORT).show();
-            dismiss();
-            // Navigate back to main menu
-            ((MainActivity) requireActivity()).replaceFragment(new StartFragment());
-        });
 
-        btnSkinDefault.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
-            com.example.horse_racing_betting.skin.SkinManager.getInstance(requireContext())
-                .setCurrentSkin(com.example.horse_racing_betting.skin.SkinManager.Skin.DEFAULT);
-            Toast.makeText(requireContext(), "Skin: Default", Toast.LENGTH_SHORT).show();
-        });
-        btnSkinBlue.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
-            com.example.horse_racing_betting.skin.SkinManager.getInstance(requireContext())
-                .setCurrentSkin(com.example.horse_racing_betting.skin.SkinManager.Skin.BLUE);
-            Toast.makeText(requireContext(), "Skin: Blue", Toast.LENGTH_SHORT).show();
-        });
-        btnSkinRed.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
-            com.example.horse_racing_betting.skin.SkinManager.getInstance(requireContext())
-                .setCurrentSkin(com.example.horse_racing_betting.skin.SkinManager.Skin.RED);
-            Toast.makeText(requireContext(), "Skin: Red", Toast.LENGTH_SHORT).show();
+            // Full game reset - clears username, sets coins to 100, enables first run
+            gameViewModel.resetGame();
+
+            Toast.makeText(requireContext(), "Game reset! Please enter your username again.", Toast.LENGTH_LONG).show();
+            dismiss();
+
+            // Navigate back to start screen which will show username entry
+            ((MainActivity) requireActivity()).replaceFragment(new StartFragment());
         });
     }
 

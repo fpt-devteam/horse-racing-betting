@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(if [ -d \".cursor/rules\" ])",
+      "Bash(then ls -la .cursor/rules/)",
+      "Bash(fi)",
+      "Bash(if [ -f \".github/copilot-instructions.md\" ])",
+      "Bash(then echo \"exists\")",
+      "Bash(./gradlew:*)",
+      "Bash(timeout:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

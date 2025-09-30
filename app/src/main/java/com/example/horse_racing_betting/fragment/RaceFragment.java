@@ -34,6 +34,7 @@ public class RaceFragment extends Fragment {
     private SkinManager skinManager;
     private android.graphics.drawable.Animatable[] animThumbs;
     private android.graphics.drawable.Drawable[] idleThumbs;
+    private boolean isPlayingCountdown;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class RaceFragment extends Fragment {
         seekBars.add(seekBar3);
         seekBars.add(seekBar4);
 
+        isPlayingCountdown = false;
+
         // Build animated thumbs from per-frame images (fallback to static icons if not found)
         setupHorseThumbs();
     }
@@ -95,18 +98,29 @@ public class RaceFragment extends Fragment {
         });
 
         gameViewModel.getCountdown().observe(getViewLifecycleOwner(), countdown -> {
-            if (countdown != null) {
-//                ((MainActivity) requireActivity()).getAudioManager().stopBgm();
-                ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.race_start_beeps);
 
+            if (countdown != null) {
+                if (!isPlayingCountdown) {
+                    ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.race_start_beeps);
+                }
+                isPlayingCountdown = true;
                 if (countdown > 0) {
+                    // Display countdown numbers (5, 4, 3, 2, 1)
                     countdownOverlay.setVisibility(View.VISIBLE);
                     tvCountdown.setText(String.valueOf(countdown));
-                    // Beep during countdown
+                    // Play beep sound
                 } else {
-                    countdownOverlay.setVisibility(View.GONE);
-                    // Start sound when countdown ends
-                    ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.horse_whinny);
+                    // Display "Go!" when countdown reaches 0
+                    countdownOverlay.setVisibility(View.VISIBLE);
+                    tvCountdown.setText("Go!");
+                    // Play start sound
+//                    ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.horse_whinny);
+                    // Hide overlay after showing "Go!" briefly
+                    tvCountdown.postDelayed(() -> {
+                        if (countdownOverlay != null) {
+                            countdownOverlay.setVisibility(View.GONE);
+                        }
+                    }, 1000);
                 }
             }
         });

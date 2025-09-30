@@ -27,8 +27,8 @@ import java.util.List;
 
 public class ResultFragment extends DialogFragment {
     private GameViewModel gameViewModel;
-    private ImageButton btnClose;
     private ImageView ivFirst, ivSecond, ivThird, ivFourth;
+    private TextView tvFirstName, tvSecondName, tvThirdName, tvFourthName;
     private TextView tvTotalWinnings, tvNetChange, tvNewBalance;
     private Button btnRaceAgain, btnMainMenu;
 
@@ -63,11 +63,14 @@ public class ResultFragment extends DialogFragment {
     }
 
     private void initViews(View view) {
-        btnClose = view.findViewById(R.id.btnClose);
         ivFirst = view.findViewById(R.id.ivFirst);
         ivSecond = view.findViewById(R.id.ivSecond);
         ivThird = view.findViewById(R.id.ivThird);
         ivFourth = view.findViewById(R.id.ivFourth);
+        tvFirstName = view.findViewById(R.id.tvFirstName);
+        tvSecondName = view.findViewById(R.id.tvSecondName);
+        tvThirdName = view.findViewById(R.id.tvThirdName);
+        tvFourthName = view.findViewById(R.id.tvFourthName);
         tvTotalWinnings = view.findViewById(R.id.tvTotalWinnings);
         tvNetChange = view.findViewById(R.id.tvNetChange);
         tvNewBalance = view.findViewById(R.id.tvNewBalance);
@@ -84,12 +87,6 @@ public class ResultFragment extends DialogFragment {
     }
 
     private void setupClickListeners() {
-        btnClose.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
-            dismiss();
-            ((MainActivity) requireActivity()).replaceFragment(new StartFragment());
-        });
-
         btnRaceAgain.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             gameViewModel.returnToMainMenu();
@@ -107,13 +104,41 @@ public class ResultFragment extends DialogFragment {
 
     private void displayRaceResult(RaceResult result) {
         List<Integer> finishOrder = result.getFinishOrder();
+        List<com.example.horse_racing_betting.model.Horse> horses = gameViewModel.getHorses().getValue();
 
-        // Display podium with correct horse icons
-        if (finishOrder.size() >= 4) {
-            skinManager.applyHorseIcon(ivFirst, finishOrder.get(0));
-            skinManager.applyHorseIcon(ivSecond, finishOrder.get(1));
-            skinManager.applyHorseIcon(ivThird, finishOrder.get(2));
-            skinManager.applyHorseIcon(ivFourth, finishOrder.get(3));
+        // Display podium with correct horse icons and names
+        if (finishOrder.size() >= 4 && horses != null) {
+            // 1st Place
+            int firstHorseNum = finishOrder.get(0);
+            skinManager.applyHorseIcon(ivFirst, firstHorseNum);
+            com.example.horse_racing_betting.model.Horse firstHorse = getHorseByNumber(horses, firstHorseNum);
+            if (firstHorse != null) {
+                tvFirstName.setText(String.format("Horse %d: %s", firstHorse.getNumber(), firstHorse.getName()));
+            }
+
+            // 2nd Place
+            int secondHorseNum = finishOrder.get(1);
+            skinManager.applyHorseIcon(ivSecond, secondHorseNum);
+            com.example.horse_racing_betting.model.Horse secondHorse = getHorseByNumber(horses, secondHorseNum);
+            if (secondHorse != null) {
+                tvSecondName.setText(String.format("Horse %d: %s", secondHorse.getNumber(), secondHorse.getName()));
+            }
+
+            // 3rd Place
+            int thirdHorseNum = finishOrder.get(2);
+            skinManager.applyHorseIcon(ivThird, thirdHorseNum);
+            com.example.horse_racing_betting.model.Horse thirdHorse = getHorseByNumber(horses, thirdHorseNum);
+            if (thirdHorse != null) {
+                tvThirdName.setText(String.format("Horse %d: %s", thirdHorse.getNumber(), thirdHorse.getName()));
+            }
+
+            // 4th Place
+            int fourthHorseNum = finishOrder.get(3);
+            skinManager.applyHorseIcon(ivFourth, fourthHorseNum);
+            com.example.horse_racing_betting.model.Horse fourthHorse = getHorseByNumber(horses, fourthHorseNum);
+            if (fourthHorse != null) {
+                tvFourthName.setText(String.format("Horse %d: %s", fourthHorse.getNumber(), fourthHorse.getName()));
+            }
         }
 
         // Display payout information
@@ -145,6 +170,15 @@ public class ResultFragment extends DialogFragment {
 
         // Display new balance
         tvNewBalance.setText(String.format("New Coin Balance: %d Coins", result.getNewBalance()));
+    }
+
+    private com.example.horse_racing_betting.model.Horse getHorseByNumber(List<com.example.horse_racing_betting.model.Horse> horses, int number) {
+        for (com.example.horse_racing_betting.model.Horse horse : horses) {
+            if (horse.getNumber() == number) {
+                return horse;
+            }
+        }
+        return null;
     }
 
     @Override
