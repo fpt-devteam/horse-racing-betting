@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -76,12 +77,6 @@ public class RaceFragment extends Fragment {
         // Build animated thumbs from per-frame images (fallback to static icons if not found)
         setupHorseThumbs();
 
-        // Setup settings button
-        btnSettings.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
-            SettingsFragment settingsFragment = new SettingsFragment();
-            settingsFragment.show(getParentFragmentManager(), "settings");
-        });
     }
 
     private void setupObservers() {
