@@ -19,7 +19,7 @@ import com.example.horse_racing_betting.audio.AudioManager;
 
 public class HelpFragment extends DialogFragment {
     private GameViewModel gameViewModel;
-    private Button btnRaceAgain, btnMainMenu;
+    private Button btnRaceAgain, btnMainMenu, btnSettings;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class HelpFragment extends DialogFragment {
     private void initViews(View view) {
         btnRaceAgain = view.findViewById(R.id.btnRaceAgain);
         btnMainMenu = view.findViewById(R.id.btnMainMenu);
+        btnSettings = view.findViewById(R.id.btnSettings);
     }
 
     private void setupClickListeners() {
@@ -65,6 +66,12 @@ public class HelpFragment extends DialogFragment {
             dismiss();
             gameViewModel.returnToMainMenu();
             ((MainActivity) requireActivity()).replaceFragment(new StartFragment());
+        });
+
+        btnSettings.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
+            SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.show(getParentFragmentManager(), "settings");
         });
     }
 

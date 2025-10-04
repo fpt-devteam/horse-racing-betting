@@ -41,6 +41,7 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
     private RecyclerView recyclerViewBets;
     private TextView tvTotalStake;
     private Button btnStartRace;
+    private Button btnSettings;
     private BetAdapter betAdapter;
     private final List<Integer> spinnerHorseNumbers = new ArrayList<>();
     private ArrayAdapter<String> horseAdapter;
@@ -71,6 +72,7 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
         recyclerViewBets = view.findViewById(R.id.recyclerViewBets);
         tvTotalStake = view.findViewById(R.id.tvTotalStake);
         btnStartRace = view.findViewById(R.id.btnStartRace);
+        btnSettings = view.findViewById(R.id.btnSettings);
     }
 
 //    private void setupSpinners() {
@@ -185,6 +187,11 @@ public class BetFragment extends Fragment implements BetAdapter.OnBetClickListen
         btnStartRace.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
             startRace();
+        });
+        btnSettings.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
+            SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.show(getParentFragmentManager(), "settings");
         });
     }
 

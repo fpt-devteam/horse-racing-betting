@@ -30,7 +30,7 @@ public class ResultFragment extends DialogFragment {
     private ImageView ivFirst, ivSecond, ivThird, ivFourth;
     private TextView tvFirstName, tvSecondName, tvThirdName, tvFourthName;
     private TextView tvTotalWinnings, tvNetChange, tvNewBalance;
-    private Button btnRaceAgain, btnMainMenu;
+    private Button btnRaceAgain, btnMainMenu, btnSettings;
 
     private SkinManager skinManager;
 
@@ -76,6 +76,7 @@ public class ResultFragment extends DialogFragment {
         tvNewBalance = view.findViewById(R.id.tvNewBalance);
         btnRaceAgain = view.findViewById(R.id.btnRaceAgain);
         btnMainMenu = view.findViewById(R.id.btnMainMenu);
+        btnSettings = view.findViewById(R.id.btnSettings);
     }
 
     private void setupObservers() {
@@ -99,6 +100,12 @@ public class ResultFragment extends DialogFragment {
             gameViewModel.returnToMainMenu();
             dismiss();
             ((MainActivity) requireActivity()).replaceFragment(new StartFragment());
+        });
+
+        btnSettings.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).getAudioManager().playSfx(R.raw.mouse_click);
+            SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.show(getParentFragmentManager(), "settings");
         });
     }
 
