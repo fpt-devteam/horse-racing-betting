@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class RaceFragment extends Fragment {
     private LinearLayout countdownOverlay;
     private TextView tvCountdown;
     private TextView tvRaceStatus;
+    private Button btnSettings;
     private SeekBar seekBar1, seekBar2, seekBar3, seekBar4;
     private List<SeekBar> seekBars;
     private SkinManager skinManager;
@@ -57,6 +59,7 @@ public class RaceFragment extends Fragment {
         countdownOverlay = view.findViewById(R.id.countdownOverlay);
         tvCountdown = view.findViewById(R.id.tvCountdown);
         tvRaceStatus = view.findViewById(R.id.tvRaceStatus);
+        btnSettings = view.findViewById(R.id.btnSettings);
 
         seekBar1 = view.findViewById(R.id.seekBar1);
         seekBar2 = view.findViewById(R.id.seekBar2);
