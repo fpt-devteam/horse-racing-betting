@@ -197,18 +197,6 @@
 
       </androidx.cardview.widget.CardView>
 
-      <!-- Settings Button -->
-      <Button
-          android:id="@+id/btnSettings"
-          android:layout_width="match_parent"
-          android:layout_height="40dp"
-          android:layout_marginTop="8dp"
-          android:backgroundTint="#757575"
-          android:text="Settings"
-          android:textColor="@android:color/white"
-          android:textSize="13sp" />
-
-
       <!-- Total Stake -->
       <LinearLayout
         android:layout_width="match_parent"
@@ -240,6 +228,19 @@
           android:textStyle="bold" />
 
       </LinearLayout>
+
+      <!-- Settings Button -->
+      <Button
+          android:id="@+id/btnSettings"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="8dp"
+          android:backgroundTint="#757575"
+          android:text="Settings"
+          android:textColor="@android:color/white"
+          android:textSize="13sp" />
+
+
     </LinearLayout>
   </LinearLayout>
 
